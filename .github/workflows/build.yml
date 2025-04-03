@@ -46,3 +46,8 @@ jobs:
           name: NuGet Package
           path: ./ILSpyNuGetFixer/bin/Release/net9.0/*.nupkg
           if-no-files-found: error
+
+      - name: Push to NuGet
+        if: (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
+        run: |
+          dotnet nuget push ./ILSpyNuGetFixer/bin/Release/net9.0/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
