@@ -36,12 +36,9 @@ jobs:
 
       - name: Build
         run: dotnet build --configuration Release
-
-      - name: Change directory
-        run: cd ILSpyNuGetFixer/bin/Release/net9.0
-
+        
       - name: Create NuGet package
-        run: ./ILSpyNuGetFixer
+        run: ./ILSpyNuGetFixer/bin/Release/net9.0/ILSpyNuGetFixer
 
       - name: Upload
         uses: actions/upload-artifact@v4
