@@ -44,5 +44,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NuGet Package
-          path: ./*.nupkg
+          path: ./ILSpyNuGetFixer/bin/Release/net9.0/*.nupkg
           if-no-files-found: error
