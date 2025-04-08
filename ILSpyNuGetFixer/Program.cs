@@ -8,15 +8,30 @@ internal static class Program
 {
 	const string Url = @"https://nightly.link/icsharpcode/ILSpy/workflows/build-ilspy/master/ICSharpCode.Decompiler%20NuGet%20Package%20%28Release%29.zip";
 
-	static async Task Main()
+	static async Task Main(string[] args)
 	{
-		using HttpClient client = CreateHttpClient();
-		using Stream stream = await client.GetStreamAsync(Url);
-
 		string tempFile = Path.Combine(Environment.CurrentDirectory, Path.GetRandomFileName());
+		if (args.Length is 0)
 		{
+			using HttpClient client = CreateHttpClient();
+			using Stream stream = await client.GetStreamAsync(Url);
 			using FileStream fileStream = File.Create(tempFile);
 			await stream.CopyToAsync(fileStream);
+		}
+		else
+		{
+			string sourceFile = args[0];
+			if (!File.Exists(sourceFile))
+			{
+				Console.WriteLine($"File not found: {sourceFile}");
+				return;
+			}
+			if (Path.GetExtension(sourceFile) != ".zip")
+			{
+				Console.WriteLine($"Invalid file extension: {sourceFile}");
+				return;
+			}
+			File.Copy(sourceFile, tempFile, true);
 		}
 
 		string tempDirectory = Path.Combine(Environment.CurrentDirectory, Path.GetRandomFileName());
