@@ -7,7 +7,7 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 0" #once per week
+    - cron: "0 0 * * *" # Every day at midnight UTC
 
 # The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs
 #
